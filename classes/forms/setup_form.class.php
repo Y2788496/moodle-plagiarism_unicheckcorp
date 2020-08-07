@@ -70,7 +70,7 @@ class setup_form extends moodleform {
 
         $currentregion = unicheck_settings::get_current_region();
         $currentcorpdomain = api_regions::get_base_url_by_region($currentregion);
-        $addyesnoelem('unicheck_use', 'enable_plugin', false);
+        $addyesnoelem('enabled', 'enable_plugin', false);
 
         $settingstext = '<div id="fitem_id_settings_link" class="fitem fitem_ftext ">
                             <div class="felement ftext">

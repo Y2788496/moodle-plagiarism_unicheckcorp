@@ -46,7 +46,7 @@ if (!defined('MOODLE_INTERNAL')) {
  * @throws upgrade_exception
  */
 function xmldb_plagiarism_unicheck_upgrade($oldversion) {
-    global $DB;
+    global $DB, $CFG;
 
     $dbman = $DB->get_manager();
 
@@ -162,6 +162,22 @@ function xmldb_plagiarism_unicheck_upgrade($oldversion) {
         // Unicheck savepoint reached.
         upgrade_plugin_savepoint(true, 2018021531, 'plagiarism', 'unicheck');
     }
+
+//    if ($CFG->branch >= 39) {
+//        $configs = get_config('plagiarism');
+//
+//        foreach ($configs as $field => $value) {
+//            if (strpos($field, 'unicheck') === 0) {
+//                $DB->delete_records('config_plugins', array('name' => $field, 'plugin' => 'plagiarism'));
+//
+//                if ($field === 'unicheck_use') {
+//                    $field = 'enabled';
+//                }
+//
+//                set_config($field, $value, 'plagiarism_unicheck');
+//            }
+//        }
+//    }
 
     return true;
 }

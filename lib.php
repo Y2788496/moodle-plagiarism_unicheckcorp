@@ -64,7 +64,7 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
      */
     public static function default_plugin_options() {
         return [
-            'unicheck_use',
+            'enabled',
             'unicheck_enable_mod_assign',
             'unicheck_enable_mod_forum',
             'unicheck_enable_mod_workshop',
@@ -217,6 +217,12 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
      * @param string  $modulename
      */
     public function get_form_elements_module($mform, $context, $modulename = "") {
+        static $settingsdisplayed;
+
+        if ($settingsdisplayed) {
+            return;
+        }
+
         if ($modulename && !self::is_enabled_module($modulename)) {
             return;
         }
@@ -265,7 +271,7 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
      * @param array  $plagiarismelements
      * @param object $mform - Moodle form
      */
-    private function disable_elements_if_not_use($plagiarismelements, $mform) {
+    public function disable_elements_if_not_use($plagiarismelements, $mform) {
         // Disable all plagiarism elements if use_plagiarism eg 0.
         foreach ($plagiarismelements as $element) {
             if ($element <> unicheck_settings::ENABLE_UNICHECK) { // Ignore this var.
@@ -280,7 +286,7 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
      * @param array                  $plagiarismelements
      * @param MoodleQuickForm|object $mform - Moodle form
      */
-    private function add_plagiarism_hidden_vars($plagiarismelements, $mform) {
+    public function add_plagiarism_hidden_vars($plagiarismelements, $mform) {
         foreach ($plagiarismelements as $element) {
             $mform->addElement('hidden', $element);
             $mform->setType($element, unicheck_settings::get_setting_type($element));
@@ -321,4 +327,16 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
         // Workaround MDL-52702 before version 3.1.
         // Affected branches moodle 2.7 - 3.0.
     }
+}
+
+function plagiarism_unicheck_coursemodule_standard_elements($formwrapper, $mform)
+{
+    $pluginunicheck = new plagiarism_plugin_unicheck();
+    $context = context_course::instance($formwrapper->get_course()->id);
+
+    $pluginunicheck->get_form_elements_module(
+        $mform,
+        $context,
+        isset($formwrapper->get_current()->modulename) ? 'mod_' . $formwrapper->get_current()->modulename : ''
+    );
 }
