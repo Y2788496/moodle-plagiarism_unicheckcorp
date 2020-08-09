@@ -94,8 +94,8 @@ class module_form extends moodleform {
         /** @var MoodleQuickForm $mform */
         $mform = &$this->_form;
 
-        $defaultsforfield = function(MoodleQuickForm &$mform, $setting, $defaultvalue) {
-            if (!isset($mform->exportValues()[$setting]) || is_null($mform->exportValues()[$setting])) {
+        $defaultsforfield = function (MoodleQuickForm &$mform, $setting, $defaultvalue) {
+            if (!$mform->exportValue($setting)) {
                 $mform->setDefault($setting, $defaultvalue);
             }
         };
