@@ -101,6 +101,54 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
     }
 
     /**
+     * Hook to allow plagiarism specific information to be displayed beside a submission.
+     *
+     * @param array $linkarray all relevant information for the plugin to generate a link.
+     *
+     * @return string
+     */
+    public function get_links($linkarray) {
+        global $USER;
+        if (!plagiarism_unicheck::is_plugin_enabled() || !unicheck_settings::get_activity_settings(
+                $linkarray['cmid'], unicheck_settings::ENABLE_UNICHECK
+            )
+        ) {
+            // Not allowed access to this content.
+            return null;
+        }
+
+        $cm = get_coursemodule_from_id('', $linkarray['cmid'], 0, false, MUST_EXIST);
+
+        $output = '';
+        if (self::is_enabled_module('mod_' . $cm->modname)) {
+            // Not allowed to view similarity check result.
+            if (!capability::can_view_similarity_check_result($linkarray['cmid'], $USER->id)) {
+                return null;
+            }
+
+            $file = unicheck_linkarray::get_file_from_linkarray($cm, $linkarray);
+            if ($file && plagiarism_unicheck::is_support_filearea($file->get_filearea())) {
+                $ucore = new unicheck_core($linkarray['cmid'], $file->get_userid(), $cm->modname);
+
+                if ($cm->modname == UNICHECK_MODNAME_ASSIGN && (bool) unicheck_assign::get($cm->instance)->teamsubmission) {
+                    $ucore->enable_teamsubmission();
+                }
+
+                $fileobj = $ucore->get_plagiarism_entity($file)->get_internal_file();
+                if (!empty($fileobj) && is_object($fileobj)) {
+                    $output = unicheck_linkarray::get_output_for_linkarray($fileobj, $cm, $linkarray);
+                }
+            } else {
+                if (isset($linkarray['content']) && filesize_checker::is_valid_content($linkarray['content'])) {
+                    $output = require(__DIR__ . '/views/' . 'view_tmpl_can_check.php');
+                }
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Disable elements if not use
      *
      * @param array  $plagiarismelements
