@@ -120,7 +120,7 @@ class plagiarism_plugin_unicheck extends plagiarism_plugin {
         $cm = get_coursemodule_from_id('', $linkarray['cmid'], 0, false, MUST_EXIST);
 
         $output = '';
-        if (self::is_enabled_module('mod_' . $cm->modname)) {
+        if (self::is_enabled_module($cm->modname)) {
             // Not allowed to view similarity check result.
             if (!capability::can_view_similarity_check_result($linkarray['cmid'], $USER->id)) {
                 return null;
