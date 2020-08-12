@@ -97,6 +97,9 @@ switch ($cm->modname) {
         }
 
         break;
+    case UNICHECK_MODNAME_QUIZ:
+        $member = true;
+        break;
 }
 
 if (!in_array(true, [$member, $grader])) {

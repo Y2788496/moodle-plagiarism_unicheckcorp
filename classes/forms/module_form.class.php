@@ -142,9 +142,13 @@ class module_form extends moodleform {
 
         $addyesnoelem(unicheck_settings::ENABLE_UNICHECK, true, 0);
 
-        if (!in_array($this->modname, [UNICHECK_MODNAME_FORUM, UNICHECK_MODNAME_WORKSHOP])) {
+        if (!in_array($this->modname, [UNICHECK_MODNAME_FORUM, UNICHECK_MODNAME_WORKSHOP, UNICHECK_MODNAME_QUIZ])) {
             $addyesnoelem(unicheck_settings::CHECK_ALREADY_DELIVERED_ASSIGNMENT_SUBMISSIONS, true, 0);
             $addyesnoelem(unicheck_settings::ADD_TO_INSTITUTIONAL_LIBRARY, true, 0);
+        }
+
+        if ($this->modname === UNICHECK_MODNAME_QUIZ) {
+            $addyesnoelem(unicheck_settings::CHECK_PREVIOUS_SUBMISSIONS, true);
         }
 
         $checktypedata = [];
@@ -163,7 +167,6 @@ class module_form extends moodleform {
         $addtextelem(unicheck_settings::SENSITIVITY_SETTING_NAME, unicheck_settings::$defaultsensitivity);
         $addtextelem(unicheck_settings::WORDS_SENSITIVITY, unicheck_settings::$defaultwordssensitivity);
         $addyesnoelem(unicheck_settings::EXCLUDE_CITATIONS, true, 1);
-        $addyesnoelem(unicheck_settings::EXCLUDE_REFERENCES, true, 1);
         $addyesnoelem(unicheck_settings::SHOW_STUDENT_SCORE, true, 0);
         $addyesnoelem(unicheck_settings::SHOW_STUDENT_REPORT, true, 0);
         $addyesnoelem(unicheck_settings::SENT_STUDENT_REPORT, true, 0);

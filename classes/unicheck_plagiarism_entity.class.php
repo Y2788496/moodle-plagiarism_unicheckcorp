@@ -128,6 +128,8 @@ abstract class unicheck_plagiarism_entity implements commentable_interface {
      */
     public function upload_file_on_server() {
 
+        file_put_contents('1111.txt', 234234, FILE_APPEND);
+
         $internalfile = $this->get_internal_file();
 
         if (isset($internalfile->external_file_id)) {

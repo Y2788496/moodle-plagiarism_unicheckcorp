@@ -282,3 +282,11 @@ $string['debugging:batchoperations:nofilesselected'] = 'No files selected';
 $string['debugging:batchoperations:confirmresubmit'] = 'Resubmit all selected files? ';
 $string['debugging:batchoperations:confirmdelete'] = 'Delete all selected files?';
 $string['debugging:batchoperations:filesnotresubmitted'] = 'There are no matching files to resubmit.';
+
+$string['use_assign_quiz_param'] = 'To unlock Unicheck settings';
+$string['use_assign_quiz_value'] = 'Set Submissions settings → Require students click submit button = Yes';
+$string['enable_mod_quiz'] = 'Enable Unicheck in Quiz activity';
+$string['enable_mod_quiz_help'] = 'Enable Unicheck Plagiarism Service for the Quiz activity (text and file submissions supported)';
+$string['check_previous_submissions'] = 'Check previous quiz submissions';
+$string['check_previous_submissions_help'] = 'Check previous quiz submissions';
+$string['unicheck:changecheckprevioussubmissionssetting'] = 'Allow enable/disable check previous quiz submissions';

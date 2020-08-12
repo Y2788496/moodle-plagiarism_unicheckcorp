@@ -27,6 +27,7 @@ namespace plagiarism_unicheck\classes\helpers;
 
 use plagiarism_unicheck\classes\services\storage\unicheck_file_state;
 use plagiarism_unicheck\classes\unicheck_assign;
+use plagiarism_unicheck\classes\unicheck_quiz;
 use plagiarism_unicheck\classes\unicheck_workshop;
 
 if (!defined('MOODLE_INTERNAL')) {
@@ -76,6 +77,13 @@ class unicheck_linkarray {
 
                     $files = \plagiarism_unicheck::get_area_files($context->id, UNICHECK_DEFAULT_FILES_AREA, $submission->id);
                     $file = array_shift($files);
+                    break;
+                case UNICHECK_MODNAME_QUIZ:
+                    //TODO
+                    $files = \plagiarism_unicheck::get_area_files($context->id, UNICHECK_QUIZ_FILES_AREA);
+                    $file = array_shift($files);
+                    //var_dump($linkarray);
+
                     break;
                 default:
                     $files = \plagiarism_unicheck::get_area_files($context->id, UNICHECK_DEFAULT_FILES_AREA);
